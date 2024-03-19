@@ -1,0 +1,58 @@
+import random
+import time
+
+best_score = float('inf')
+
+def intro():
+    print("May I ask you for your name?")
+    name = input()
+    print(name + ", we are going to play a game. I am thinking of a number between 1 and 200")
+    time.sleep(0.5)
+    print("Go ahead. Guess!")
+    return name
+
+def pick(number):
+    global best_score
+    guesses_taken = 0
+
+    while guesses_taken < 6:
+        time.sleep(0.25)
+        enter = input("Guess: ")
+
+        try:
+            guess = int(enter)
+
+            if 1 <= guess <= 200:
+                guesses_taken += 1
+
+                if guesses_taken < 6:
+                    if guess < number:
+                        print("The guess is too low")
+                    elif guess > number:
+                        print("The guess is too high")
+                    else:
+                        break
+
+            else:
+                print("Please enter a number between 1 and 200")
+
+        except ValueError:
+            print("I don't think that's a number. Sorry")
+
+    if guess == number:
+        print(f'Good job, {name}! You guessed my number in {guesses_taken} guesses!')
+        
+        if guesses_taken < best_score:
+            best_score = guesses_taken
+            print(f'Congratulations! You beat your best score. Your new best score is {best_score} guesses!')
+
+    else:
+        print(f'Nope. The number I was thinking of was {number}')
+
+play_again = "yes"
+while play_again.lower() in ('yes', 'y'):
+    name = intro()
+    number = random.randint(1, 200)
+    pick(number)
+    print("Do you want to play again?")
+    play_again = input()
